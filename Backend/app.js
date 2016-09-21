@@ -8,7 +8,14 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+//Load mongoose
+var mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://localhost/recipes')
+  .then(() => console.log('connection successful'))
+  .catch((err) => console.log(err));
 
 var app = express();
 
