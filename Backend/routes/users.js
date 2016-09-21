@@ -10,11 +10,11 @@ router.get('/', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.json(users);
+    res.render('index', {user: users});
   });
 });
 
-router.post('/', function(req, res, next) {
+router.post('/api/addUser', function(req, res, next) {
   user.create(req.body, function(err, post) {
     if (err) {
       return next(err);

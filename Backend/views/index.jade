@@ -1,5 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 #{user}
+  div
+    form(action='/users/api/addUser' method='post')
+      label username
+        input(id='username' type='text' value='' placeholder='username' name='username')
+      label password
+        input(id='password' type='password' value='' placeholder='' name='password')
+      label firstname
+        input(id='firstname' type='text' value='' name='firstname')
+      label lastname
+        input(id='lastname' type='text' value='' name='lastname')
+      label email
+        input(id='email' type='text' value='' name='email')
+      input(type='submit' value='Sign Up')
