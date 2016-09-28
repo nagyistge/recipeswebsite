@@ -1,15 +1,49 @@
 var express = require('express');
-var passport = require('passport');
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
-var router = express.Router();
+var userModel = require('./models/user');
 
+module.exports = function(router) {
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.render('user');
-});
+    // GET all users
+    router.get('/getUser', function(req, res) {
+        userModel.find(function(err, users) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(users);
+        });
+    });
 
+    /* GET user listing based on id. */
+    router.get('/getUser/:user_id', function(req, res) {
+        userModel.findById(req.params.user_id, function(err, user) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(user);
+        });
+    });
 
-});
+    // Add user to database
+    router.post('/addUser', function(req, res) {
+        var user = new userModel();
 
-module.exports = router;
+        user.username = req.body.username;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.admin = false;
+
+        user.save(function(err) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: "User has been saved"
+            });
+        });
+    });
+
+    
+
+};

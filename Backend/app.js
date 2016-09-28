@@ -30,7 +30,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./routes/index')(apiRouter);
+//Nothing is currently in index
+//require('./routes/index')(apiRouter);
+require('./routes/users')(apiRouter);
 
 app.use('/api', apiRouter);
 
