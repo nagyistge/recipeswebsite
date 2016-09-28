@@ -4,31 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var passport = require('passport');
-var Auth0Strategy = require('passport-auth0');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
 
-//Configure Passport to use Auth0
-var strategy = new Auth0Strategy({
-  domain: process.env.AUTH0_DOMAIN,
-  clientID: process.env.AUTH0_CLIENT_ID,
-  clientSecret: process.env.AUTH0_CLIENT_SECERT,
-  callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
-}, function(accessToken, refreshToken, extraParams, profile, done) {
-    return done(null, profile);
-});
 
-passport.use(strategy);
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
 
 //Load mongoose
 var mongoose = require('mongoose');
@@ -40,6 +18,7 @@ mongoose.connect('mongodb://localhost/recipes')
   .catch((err) => console.log(err));
 
 var app = express();
+var apiRouter = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,11 +32,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+require('./routes/index')(apiRouter);
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler
