@@ -1,5 +1,5 @@
 var express = require('express');
-var userModel = require('./models/user');
+var userModel = require('../models/user');
 
 module.exports = function(router) {
 
@@ -44,6 +44,13 @@ module.exports = function(router) {
         });
     });
 
-    
-
+    //Delete user from database
+    router.delete('/deleteUser/:user_id', function(req, res) {
+      userModel.remove({_id: req.params.user_id}, function(err) {
+        if (err) {
+          res.send(err);
+        }
+        res.json({sucess: true, message: "Successfully delete" });
+      });
+    });
 };
