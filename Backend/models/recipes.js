@@ -7,9 +7,9 @@ var recipesSchema = new mongoSchema({
   category: {type: String, required: true},
   image: String,
   video: String,
-  macronutrients: String,
+  macronutrients: [{type: mongoSchema.Types.ObjectId, ref: 'Macronutrient'}],
   ingredients: {type: String, required: true},
   method: {type: String, required: true}
 });
 
-module.exports = mongoose.model('recipes', recipesSchema)
+module.exports = mongoose.model('Recipe', recipesSchema)
