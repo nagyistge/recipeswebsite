@@ -33,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Nothing is currently in index
 //require('./routes/index')(apiRouter);
 require('./routes/users')(apiRouter);
+require('./routes/recipes')(apiRouter);
 
 app.use('/api', apiRouter);
 
