@@ -7,7 +7,7 @@ var recipesSchema = new mongoSchema({
   category: {type: String, required: true},
   image: String,
   video: String,
-  macronutrients: [{type: mongoSchema.Types.ObjectId, ref: 'Macronutrient'}],
+  macronutrients: [{type: mongoSchema.Types.ObjectId, ref: 'Macronutrient', required: true}],
   ingredients: {type: String, required: true},
   method: {type: String, required: true}
 });
